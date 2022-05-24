@@ -14,7 +14,8 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-
+// https://mvnrepository.com/artifact/io.netty/netty-all
+    implementation("io.netty:netty-all:4.1.77.Final")
 }
 
 tasks.test {
