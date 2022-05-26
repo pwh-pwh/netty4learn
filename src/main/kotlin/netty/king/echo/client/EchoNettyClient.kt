@@ -16,13 +16,13 @@ import io.netty.util.CharsetUtil
  * @version 1.0.0 v
  */
 class EchoNettyClient(
-    val host: String = System.getProperty("host","localhost"),
-    val port: Int = System.getProperty("port","8686").toInt()
+    val host: String = System.getProperty("host", "localhost"),
+    val port: Int = System.getProperty("port", "8686").toInt()
 ) {
     companion object {
-        val SIZE = System.getProperty("size","256").toInt()
+        val SIZE = System.getProperty("size", "256").toInt()
     }
-    
+
     fun run() {
         var group = NioEventLoopGroup()
         try {
@@ -30,8 +30,8 @@ class EchoNettyClient(
             bs.group(group)
                 .channel(NioSocketChannel::class.java)
                 .handler(
-                    object :ChannelInitializer<SocketChannel>() {
-                        override fun initChannel(ch: SocketChannel) {
+                    object : ChannelInitializer<NioSocketChannel>() {
+                        override fun initChannel(ch: NioSocketChannel) {
                             ch.pipeline()
                                 .addLast(StringDecoder())
                                 .addLast(StringEncoder())
@@ -50,9 +50,8 @@ class EchoNettyClient(
         } finally {
             group.shutdownGracefully()
         }
-        
-        
-        
+
+
     }
 
 }
