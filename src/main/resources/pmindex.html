@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Netty Push Msg Browser Client</title>
+</head>
+<body onload="initWebSocket()">
+<script type="text/javascript">
+    var ws
+    function initWebSocket() {
+        if ("WebSocket" in window) {
+            console.log("Your browser supports WebSocket!")
+            ws = new WebSocket("ws://localhost:8080/pushmsg")
+            ws.onopen = function () {
+                console.log("Send data to server...")
+                ws.send("opens server")
+            }
+            ws.onmessage = function (ev) {
+                var received_msg = ev.data
+                console.log("data has been received...")
+                let divRespText = document.getElementById("id-span-respText")
+                divRespText.innerHTML +=received_msg+"</br>"
+            }
+
+            ws.onclose = function (){
+                console.log("connect is closed...")
+            }
+
+        } else {
+            console.log("your browser does not support websocket")
+        }
+    }
+
+    function send(msg) {
+        if (!window.WebSocket) {
+            return;
+        }
+        if (ws.readyState==WebSocket.OPEN) {
+            ws.send(msg)
+        } else {
+            console.log("websocket connect does not establish")
+        }
+    }
+
+</script>
+<div>
+    <h3>基于Netty构建消息推送系统</h3>
+    <form>
+        <span>服务器推送消息：</span>
+        <span id="id-span-respText"></span>
+    </form>
+</div>
+
+</body>
+</html>
